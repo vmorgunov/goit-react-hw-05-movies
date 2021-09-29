@@ -17,6 +17,7 @@ import {
   Button,
 } from 'views/MoviesDetailsPage/MoviesDetailsPage.styled';
 import { StyledArrow } from './MoviesDetailsPage.styled';
+import Movie from 'images/movie.png';
 
 const Cast = lazy(() => import('../Cast/Cast' /* webpackChunkName: "cast" */));
 const Reviews = lazy(() =>
@@ -52,7 +53,11 @@ export default function MoviesDetailsPage() {
         <Container>
           {movies && (
             <>
-              <img src={`${imageUrl}${poster_path}`} alt={title} width="400" />
+              <img
+                src={poster_path !== null ? `${imageUrl}${poster_path}` : Movie}
+                alt={title}
+                width="400"
+              />
               <Description>
                 <h1>{title}</h1>
                 <p>User Score: {vote_average}%</p>
