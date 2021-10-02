@@ -1,32 +1,24 @@
+import MovieList from 'components/MovieList/MovieList';
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { fetchTrendingMovies } from 'service/ApiService';
 
 export default function HomePage() {
-  const [trends, setTrends] = useState([]);
+  const [movies, setMovies] = useState([]);
 
   useEffect(() => {
-    if (trends.length !== 0) {
+    if (movies.length !== 0) {
       return;
     }
     fetchTrendingMovies()
       .then(data => {
-        setTrends(data.results);
+        setMovies(data.results);
       })
       .catch(error => console.log(error.message));
-  }, [trends]);
+  }, [movies]);
 
   return (
     <>
-      {trends && (
-        <ul>
-          {trends.map(({ id, title }) => (
-            <li key={id}>
-              <Link to={`/movies/${id}`}>{title}</Link>
-            </li>
-          ))}
-        </ul>
-      )}
+      <MovieList movies={movies} />
     </>
   );
 }

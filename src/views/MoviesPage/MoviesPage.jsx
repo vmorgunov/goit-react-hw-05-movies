@@ -3,8 +3,8 @@ import { toast } from 'react-toastify';
 import { Form, Input, Button } from './MoviesPage.styled';
 import { FaSearch } from 'react-icons/fa';
 import { fetchMovies } from 'service/ApiService';
-import { Link } from 'react-router-dom';
 import { useHistory, useLocation } from 'react-router-dom';
+import MovieList from 'components/MovieList/MovieList';
 
 export default function MoviesPage() {
   const [query, setQuery] = useState('');
@@ -65,23 +65,7 @@ export default function MoviesPage() {
           <FaSearch />
         </Button>
       </Form>
-      <ul>
-        {movies &&
-          movies.map(({ id, title }) => {
-            return (
-              <li key={id}>
-                <Link
-                  to={{
-                    pathname: `/movies/${id}`,
-                    state: { from: location },
-                  }}
-                >
-                  {title}
-                </Link>
-              </li>
-            );
-          })}
-      </ul>
+      <MovieList movies={movies} />
     </>
   );
 }

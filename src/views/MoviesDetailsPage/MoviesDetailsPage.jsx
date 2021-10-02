@@ -19,9 +19,11 @@ import {
 import { StyledArrow } from './MoviesDetailsPage.styled';
 import Movie from 'images/movie.png';
 
-const Cast = lazy(() => import('../Cast/Cast' /* webpackChunkName: "cast" */));
+const Cast = lazy(() =>
+  import('../../components/Cast/Cast' /* webpackChunkName: "cast" */),
+);
 const Reviews = lazy(() =>
-  import('../Reviews/Reviews' /* webpackChunkName: "reviews" */),
+  import('../../components/Reviews/Reviews' /* webpackChunkName: "reviews" */),
 );
 
 export default function MoviesDetailsPage() {
@@ -30,16 +32,19 @@ export default function MoviesDetailsPage() {
   const { url } = useRouteMatch();
   const history = useHistory();
   const location = useLocation();
+  console.log(url);
 
   useEffect(() => {
-    fetchMoviesById(moviesId).then(setMovies);
+    fetchMoviesById(moviesId)
+      .then(setMovies)
+      .catch(error => console.log(error.message));
   }, [moviesId]);
 
   const { title, overview, vote_average, poster_path, genres } = movies;
   const imageUrl = 'https://image.tmdb.org/t/p/w500/';
 
   const handleClick = () => {
-    history.push(location.state?.from ? location.state.from : '/');
+    history.push(location.state?.from || '/');
   };
 
   return (
@@ -48,7 +53,6 @@ export default function MoviesDetailsPage() {
         <StyledArrow />
         Go back
       </Button>
-
       <Wrap>
         <Container>
           {movies && (
@@ -74,11 +78,20 @@ export default function MoviesDetailsPage() {
         </Container>
       </Wrap>
       <h4>Additional information</h4>
-      <NavLink to={{ pathname: `${url}/cast` }}>
+      <NavLink
+        to={{
+          pathname: `${url}/cast`,
+          state: { from: location.state.from },
+        }}
+      >
         <h4>Cast</h4>
       </NavLink>
-
-      <NavLink to={{ pathname: `${url}/reviews` }}>
+      <NavLink
+        to={{
+          pathname: `${url}/reviews`,
+          state: { from: location.state.from },
+        }}
+      >
         <h4>Reviews</h4>
       </NavLink>
 
