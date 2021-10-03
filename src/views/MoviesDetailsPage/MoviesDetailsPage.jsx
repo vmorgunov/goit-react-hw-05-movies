@@ -29,10 +29,9 @@ const Reviews = lazy(() =>
 export default function MoviesDetailsPage() {
   const [movies, setMovies] = useState('');
   const { moviesId } = useParams();
-  const { url } = useRouteMatch();
+  const { url, path } = useRouteMatch();
   const history = useHistory();
   const location = useLocation();
-  console.log(url);
 
   useEffect(() => {
     fetchMoviesById(moviesId)
@@ -96,10 +95,10 @@ export default function MoviesDetailsPage() {
       </NavLink>
 
       <Suspense fallback={<Spinner />}>
-        <Route path="/movies/:moviesId/cast">
+        <Route path={path + '/cast'}>
           <Cast />
         </Route>
-        <Route path="/movies/:moviesId/reviews">
+        <Route path={path + '/reviews'}>
           <Reviews />
         </Route>
       </Suspense>
